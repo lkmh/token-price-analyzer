@@ -20,7 +20,7 @@ async def get_kline_data(symbol: str, interval: str = "1m", limit: int = 1):
         async with httpx.AsyncClient() as client:
             response = await client.get(url, params=params)
             response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-            return response.json()
+            return await response.json()
     except httpx.HTTPStatusError as e:
         print(
             f"Error fetching Kline data: {e.response.status_code} - {e.response.text}"
@@ -46,7 +46,7 @@ async def get_average_price(symbol: str):
         async with httpx.AsyncClient() as client:
             response = await client.get(url, params=params)
             response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-            return response.json()
+            return await response.json()
     except httpx.HTTPStatusError as e:
         print(
             f"Error fetching average price: {e.response.status_code} - {e.response.text}"
