@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'  # Or your desired Python version
+
+      - name: Install UV
+        run: pip install uv
+
+      - name: Create and Activate Virtual Environment
+        run: uv venv .venv
+        shell: bash
+
+      - name: Activate Virtual Environment (for subsequent steps)
+        run: source .venv/bin/activate
+        shell: bash
+
+      - name: Install Dependencies
+        run: uv pip install -r requirements.txt
+
+      - name: Lint with Ruff
+        run: |
+          source .venv/bin/activate
+          uv pip install ruff
+          ruff check .
+
+      - name: Format with Ruff
+        run: |
+          source .venv/bin/activate
+          uv pip install ruff
+          ruff format .
+
+      - name: Test with pytest
+        run: |
+          source .venv/bin/activate
+          uv pip install pytest pytest-cov
+          pytest --cov=./ --cov-report=xml
