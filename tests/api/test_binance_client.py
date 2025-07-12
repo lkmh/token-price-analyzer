@@ -1,5 +1,4 @@
 import pytest
-import pytest
 import httpx
 from unittest.mock import AsyncMock, patch
 from api.binance_client import get_kline_data, get_average_price
