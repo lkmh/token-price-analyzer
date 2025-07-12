@@ -1,7 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from api.binance_client import get_kline_data, get_average_price
 
+from datetime import datetime, timedelta
+
 app = FastAPI()
+
+# Simple in-memory cache
+_cache = {}
 
 
 @app.get("/")
@@ -11,6 +16,10 @@ def read_root():
 
 @app.get("/token_analysis")
 async def token_analysis(symbol: str):
+    # Check cache first
+    if symbol in _cache and _cache[symbol]["expiry"] > datetime.now():
+        return _cache[symbol]["data"]
+
     kline_data = await get_kline_data(symbol)
     if not kline_data:
         raise HTTPException(
@@ -52,9 +61,17 @@ async def token_analysis(symbol: str):
     else:
         comparison = "equal"
 
-    return {
+    response_data = {
         "symbol": symbol,
         "last_close_price": f"{last_close_price:.2f}",
         "average_price": f"{average_price:.2f}",
         "comparison": comparison,
     }
+
+    # Store in cache
+    _cache[symbol] = {
+        "data": response_data,
+        "expiry": datetime.now() + timedelta(minutes=1),
+    }
+
+    return response_data
