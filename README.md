@@ -52,6 +52,24 @@ Package Manager: uv + pip (use uv where possible)
 Testing: pytest
 Linting/Formatting: ruff
 CI/CD: GitHub Actions
+## How to Run
+
+1. **Set up the virtual environment:**
+   ```bash
+   uv venv .venv
+   source .venv/bin/activate
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   uv pip install -r requirements.txt
+   ```
+
+3. **Run the application:**
+   ```bash
+   uvicorn main:app --reload
+   ```
+
 7. Implementation Details
 Data Retrieval:
 Implement functions to fetch data from both the /api/v3/klines and /api/v3/avgPrice endpoints.
