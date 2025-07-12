@@ -12,11 +12,9 @@ async def test_token_analysis_success():
     mock_avg_price_data = {"mins": 5, "price": "42450.50"}
 
     with (
+        patch("main.get_kline_data", new_callable=AsyncMock) as mock_get_kline_data,
         patch(
-            "api.binance_client.get_kline_data", new_callable=AsyncMock
-        ) as mock_get_kline_data,
-        patch(
-            "api.binance_client.get_average_price", new_callable=AsyncMock
+            "main.get_average_price", new_callable=AsyncMock
         ) as mock_get_average_price,
     ):
         mock_get_kline_data.return_value = mock_kline_data
@@ -35,11 +33,9 @@ async def test_token_analysis_success():
 @pytest.mark.asyncio
 async def test_token_analysis_kline_data_failure():
     with (
+        patch("main.get_kline_data", new_callable=AsyncMock) as mock_get_kline_data,
         patch(
-            "api.binance_client.get_kline_data", new_callable=AsyncMock
-        ) as mock_get_kline_data,
-        patch(
-            "api.binance_client.get_average_price", new_callable=AsyncMock
+            "main.get_average_price", new_callable=AsyncMock
         ) as mock_get_average_price,
     ):
         mock_get_kline_data.return_value = []
@@ -55,11 +51,9 @@ async def test_token_analysis_avg_price_data_failure():
     mock_kline_data = [[1, 10, 20, 15, "42500.00", 100, 0, 0, 0, 0, 0, 0]]
 
     with (
+        patch("main.get_kline_data", new_callable=AsyncMock) as mock_get_kline_data,
         patch(
-            "api.binance_client.get_kline_data", new_callable=AsyncMock
-        ) as mock_get_kline_data,
-        patch(
-            "api.binance_client.get_average_price", new_callable=AsyncMock
+            "main.get_average_price", new_callable=AsyncMock
         ) as mock_get_average_price,
     ):
         mock_get_kline_data.return_value = mock_kline_data
@@ -78,11 +72,9 @@ async def test_token_analysis_comparison_lower():
     mock_avg_price_data = {"mins": 5, "price": "42450.50"}
 
     with (
+        patch("main.get_kline_data", new_callable=AsyncMock) as mock_get_kline_data,
         patch(
-            "api.binance_client.get_kline_data", new_callable=AsyncMock
-        ) as mock_get_kline_data,
-        patch(
-            "api.binance_client.get_average_price", new_callable=AsyncMock
+            "main.get_average_price", new_callable=AsyncMock
         ) as mock_get_average_price,
     ):
         mock_get_kline_data.return_value = mock_kline_data
@@ -104,11 +96,9 @@ async def test_token_analysis_comparison_equal():
     mock_avg_price_data = {"mins": 5, "price": "42450.50"}
 
     with (
+        patch("main.get_kline_data", new_callable=AsyncMock) as mock_get_kline_data,
         patch(
-            "api.binance_client.get_kline_data", new_callable=AsyncMock
-        ) as mock_get_kline_data,
-        patch(
-            "api.binance_client.get_average_price", new_callable=AsyncMock
+            "main.get_average_price", new_callable=AsyncMock
         ) as mock_get_average_price,
     ):
         mock_get_kline_data.return_value = mock_kline_data
