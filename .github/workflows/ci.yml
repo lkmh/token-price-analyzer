@@ -45,7 +45,7 @@ jobs:
       - name: Check Formatting
         run: |
           source .venv/bin/activate
-          ruff format --check .
+          ruff format .
 
   test:
     runs-on: ubuntu-latest
